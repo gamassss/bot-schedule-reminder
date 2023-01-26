@@ -1,5 +1,6 @@
 {
-	"bot_token": "YOUR_TOKEN",
+	"bot_token": "YOUR_BOT_TOKEN",
 	"clientId": "YOUR_CLIENT_ID",
-	"guildId": "YOUR_GUILD_ID"
+	"guildId": "YOUR_GUILD_ID",
+	"api_key": "YOUR_GOOGLE_API_KEY"
 }
