@@ -27,6 +27,8 @@ module.exports = {
 			
 				return e;
 			})
+
+			//filter then reverse the array in order to get jam sorted
 			const matkulToday = matkul.filter(e => e[3].includes(dayName)).reverse()
 		
 			//handle if there's no matkul for today
@@ -34,7 +36,7 @@ module.exports = {
 				await interaction.reply('Hari ini tidak ada jadwal kuliah.');
 				return;
 			}
-			console.log(index)
+			
 			//transform waktu to jam
 			matkulToday.map(e => {
 				e[3] = e[3].replaceAll(' ', '').split('-')
