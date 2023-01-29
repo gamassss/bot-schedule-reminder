@@ -12,7 +12,8 @@ module.exports = {
 		//get day's name
 		const scheduleDate = new Date()
 		const daysNameOfWeek = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu"];
-		const dayName = daysNameOfWeek[scheduleDate.getDay()];
+		const index = scheduleDate.getDay()
+		const dayName = daysNameOfWeek[index];
 		
 		//get and extract values
 		const values = getJadwal.values
@@ -27,6 +28,28 @@ module.exports = {
 			return e;
 		})
 		const matkulToday = matkul.filter(e => e[3].includes(dayName))
+
+		if (index === 0 || index === 7) {
+			await interaction.reply('Hari ini tidak ada jadwal kuliah.');
+			return;
+		}
+
+		//transform waktu to jam
+		matkulToday.map(e => {
+			e[3] = e[3].replaceAll(' ', '').split('-')
+			e[3].shift()
+			e[3] = e[3].join(' -- ')
+			return e;
+		})
+
+		let str = "";
+
+		matkulToday.forEach((e) => {
+			str += `${e[0]}	${e[4]} ${e[3]}\n`;
+			// console.log(`${e[0]}			${e[4]}\n`)
+		});
+		
+		console.log(str);
 
 		await interaction.reply(dayName);
 	},
