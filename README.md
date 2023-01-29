@@ -11,7 +11,7 @@ install nodejs terlebih dahulu di `https://nodejs.org/`
 -Buat server terlebih dahulu atau bisa menggunakan server yang sudah ada
 -Lalu buka discord developer portal -> Pilih `Application` di sidebar -> New Application
 -Create -> Pilih `Bot' di sidebar -> Add bot -> Reset token untuk mendapatkan token bot terbaru dan simpan token tersebut
--Pada section `Privileged Gateway Intents`, enable option `MESSAGE CONTENT INTENT`
+-Pada section `Privileged Gateway Intents`, enable option **MESSAGE CONTENT INTENT**
 
 -Setelah itu pilih `OAuth2` -> Copy ClientID
 -Pilih submenu `URL Generator`
