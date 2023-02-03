@@ -5,30 +5,51 @@ const moment = require('moment-timezone');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("today")
-    .setDescription("Cek Jadwal Hari Ini"),
+    .setDescription("Cek Jadwal Hari Ini")
+		.addStringOption(option =>
+			option.setName('hari')
+				.setDescription('Pilih hari / besok')
+				.setRequired(false)
+				.addChoices(
+					{ name: 'Besok', value: 'Besok' },
+					{ name: 'Senin', value: '1' },
+					{ name: 'Selasa', value: '2' },
+					{ name: 'Rabu', value: '3' },
+					{ name: 'Kamis', value: '4' },
+					{ name: 'Jumat', value: '5' },
+				)),
   async execute(interaction) {
     const resultJSON = await main();
     const getJadwal = JSON.parse(resultJSON);
-
+		
     //get day's name
     const scheduleDate = new Date();
-    const daysNameOfWeek = [
-      "Minggu",
-      "Senin",
-      "Selasa",
-      "Rabu",
-      "Kamis",
-      "Jumat",
-      "Sabtu",
-    ];
+		// let daysNameOfWeek = interaction.options.getString('hari')
+		daysNameOfWeek = [
+			"Minggu",
+			"Senin",
+			"Selasa",
+			"Rabu",
+			"Kamis",
+			"Jumat",
+			"Sabtu",
+		];
 		
     const timezone = new Intl.DateTimeFormat().resolvedOptions().timeZone;
     const localTime = moment.tz(scheduleDate, timezone).format();
-		const index = moment(localTime).format('d');
-    // const index = scheduleDate.getDay();
+		let index = 0;
+
+		if (!interaction.options.getString('hari')) {
+			index = moment(localTime).format('d');
+		} else {
+			index = parseInt(interaction.options.getString('hari'));
+			if (interaction.options.getString('hari') === 'Besok') {
+				index = moment(localTime).format('d');
+				index++;
+			}
+		}
+
     const dayName = daysNameOfWeek[index];
-    // console.log(dayOfWeekNumber);
-		console.log(`${index} ${dayName}`)
     //get and extract values
     const values = getJadwal.values;
 
@@ -46,8 +67,8 @@ module.exports = {
     const matkulToday = matkul.filter((e) => e[3].includes(dayName)).reverse();
 
     //handle if there's no matkul for today
-    if (index === 0 || index === 7) {
-      await interaction.reply("Hari ini tidak ada jadwal kuliah.");
+    if (index === 0 || index === 6) {
+      await interaction.reply(`Hari ${daysNameOfWeek[index]} tidak ada jadwal kuliah.`);
       return;
     }
 
